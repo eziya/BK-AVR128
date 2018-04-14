@@ -69,7 +69,7 @@ bool EEPROM_WriteBuffer(uint8_t address, uint8_t *buffer, uint8_t length)
 bool EEPROM_EraseAll(void)
 {
 	uint8_t zero[8] = {0,};
-	uint8_t address = 0;
+	uint16_t address = 0;
 			
 	while(address < EEPROM_TOTAL_SIZE)
 	{				

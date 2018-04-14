@@ -13,22 +13,27 @@
 #include <string.h>
 #include <util/delay.h>
 
+#include "USART/128A_USART.h"
 #include "Buzzer/Buzzer.h"
 #include "Buzzer/Note.h"
 #include "EEPROM/AT24C02.h"
+
 
 static void PlayMusic();
 static bool TestEEPROM();
 
 int main(void)
 {
+	USART0_Init();
+	
 	//PlayMusic();
 	if(!TestEEPROM())
 	{
-		PlayMusic();
+		char *msg = "TestEEPROM failed\r\n";
+		USART0_TxBuffer((uint8_t*)msg, strlen(msg));
 	}
 	
-    /* Replace with your application code */
+	/* Replace with your application code */
     while (1) 
     {
 		
@@ -51,10 +56,20 @@ static void PlayMusic()
 static bool TestEEPROM()
 {
 	uint8_t data = 0;
-	char sndBuf[30] = {'x','x','x','l','o',' ','w','o','r','l','d','!',};
-	char rcvBuf[30] = {0, };
+	uint8_t sndBuf[30] = {'x','x','x','l','o',' ','W','o','r','l','d','!',' ','H','a','v','e',' ','f','u','n','!','\r','\n',};
+	uint8_t rcvBuf[30] = {0, };
+		
+	if(!EEPROM_EraseAll()) return false;
+	if(!EEPROM_ReadByte(0x00, &data)) return false;	
+	if(data != 0x00) return false;
+	
+	if(!EEPROM_ReadByte(0xF0, &data)) return false;
+	if(data != 0x00) return false;
+	
+	if(!EEPROM_ReadByte(0xFF, &data)) return false;
+	if(data != 0x00) return false;
 
-	if(!EEPROM_WriteByte(0x00, 'h')) return false;	
+	if(!EEPROM_WriteByte(0x00, 'H')) return false;	
 	if(!EEPROM_ReadByte(0x00, &data)) return false;	
 	sndBuf[0] = data;
 	
@@ -66,13 +81,25 @@ static bool TestEEPROM()
 	if(!EEPROM_ReadByte(0x02, &data)) return false;
 	sndBuf[2] = data;
 	
-	if(!EEPROM_WriteBuffer(5, (uint8_t*)sndBuf, strlen(sndBuf))) return false;	
-	if(!EEPROM_ReadBuffer(5, (uint8_t*)rcvBuf, strlen(sndBuf))) return false;
+	if(!EEPROM_WriteBuffer(0, sndBuf, strlen((char*)sndBuf))) return false;
+	if(!EEPROM_ReadBuffer(0, rcvBuf, strlen((char*)sndBuf))) return false;
+	
+	for(int i = 0; i < strlen((char*)sndBuf);i++)
+	{
+		if(sndBuf[i] != rcvBuf[i]) return false;
+	}
+	
+	memset(rcvBuf, 0, sizeof(rcvBuf));
+	
+	if(!EEPROM_WriteBuffer(5, sndBuf, strlen((char*)sndBuf))) return false;	
+	if(!EEPROM_ReadBuffer(5, rcvBuf, strlen((char*)sndBuf))) return false;
 		
-	for(int i = 0; i < strlen(sndBuf);i++)
+	for(int i = 0; i < strlen((char*)sndBuf);i++)
 	{
 		if(sndBuf[i] != rcvBuf[i]) return false;		
 	}
+	
+	USART0_TxBuffer(rcvBuf, strlen((char*)rcvBuf));			
 	
 	return true;
 }

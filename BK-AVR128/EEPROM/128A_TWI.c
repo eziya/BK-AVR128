@@ -93,8 +93,6 @@ static bool TWI_Start()
 	while((TWCR & _BV(TWINT)) == 0);
 	
 	/* Check value of TWI Status Register */
-	volatile uint8_t tmp = TWSR & TWI_TWS_MASK;
-	
 	if((TWSR & TWI_TWS_MASK) != TWI_START) return false;
 	
 	return true;
