@@ -17,21 +17,27 @@
 #include "Buzzer/Buzzer.h"
 #include "Buzzer/Note.h"
 #include "EEPROM/AT24C02.h"
+#include "LED/PWM_LED.h"
 
 
 static void PlayMusic();
 static bool TestEEPROM();
+static void TestPWMLED();
 
 int main(void)
 {
 	USART0_Init();
 	
 	//PlayMusic();
+	/*
 	if(!TestEEPROM())
 	{
 		char *msg = "TestEEPROM failed\r\n";
 		USART0_TxBuffer((uint8_t*)msg, strlen(msg));
 	}
+	*/
+	
+	TestPWMLED();
 	
 	/* Replace with your application code */
     while (1) 
@@ -102,4 +108,18 @@ static bool TestEEPROM()
 	USART0_TxBuffer(rcvBuf, strlen((char*)rcvBuf));			
 	
 	return true;
+}
+
+static void TestPWMLED()
+{
+	LED_Init();
+	
+	while(true)
+	{
+		for(int i=0; i < 256; i++)
+		{
+			LED_SetDuty(i);
+			_delay_ms(10);
+		}
+	}	
 }

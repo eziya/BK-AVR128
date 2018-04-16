@@ -35,6 +35,7 @@ LINKER_SCRIPT_DEP:=
 SUBDIRS :=  \
 ../Buzzer \
 ../EEPROM \
+../LED \
 ../USART
 
 
@@ -43,6 +44,7 @@ C_SRCS +=  \
 ../Buzzer/Buzzer.c \
 ../EEPROM/128A_TWI.c \
 ../EEPROM/AT24C02.c \
+../LED/PWM_LED.c \
 ../main.c \
 ../USART/128A_USART.c
 
@@ -57,6 +59,7 @@ OBJS +=  \
 Buzzer/Buzzer.o \
 EEPROM/128A_TWI.o \
 EEPROM/AT24C02.o \
+LED/PWM_LED.o \
 main.o \
 USART/128A_USART.o
 
@@ -64,6 +67,7 @@ OBJS_AS_ARGS +=  \
 Buzzer/Buzzer.o \
 EEPROM/128A_TWI.o \
 EEPROM/AT24C02.o \
+LED/PWM_LED.o \
 main.o \
 USART/128A_USART.o
 
@@ -71,6 +75,7 @@ C_DEPS +=  \
 Buzzer/Buzzer.d \
 EEPROM/128A_TWI.d \
 EEPROM/AT24C02.d \
+LED/PWM_LED.d \
 main.d \
 USART/128A_USART.d
 
@@ -78,6 +83,7 @@ C_DEPS_AS_ARGS +=  \
 Buzzer/Buzzer.d \
 EEPROM/128A_TWI.d \
 EEPROM/AT24C02.d \
+LED/PWM_LED.d \
 main.d \
 USART/128A_USART.d
 
@@ -106,6 +112,8 @@ LINKER_SCRIPT_DEP+=
 
 
 
+
+
 Buzzer/%.o: ../Buzzer/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -114,6 +122,13 @@ Buzzer/%.o: ../Buzzer/%.c
 	
 
 EEPROM/%.o: ../EEPROM/%.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)D:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"D:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega128a -B "D:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\gcc\dev\atmega128a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+LED/%.o: ../LED/%.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)D:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"D:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega128a -B "D:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.150\gcc\dev\atmega128a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
