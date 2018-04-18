@@ -18,26 +18,30 @@
 #include "Buzzer/Note.h"
 #include "EEPROM/AT24C02.h"
 #include "LED/PWM_LED.h"
-
+#include "FND/74HC573.h"
 
 static void PlayMusic();
 static bool TestEEPROM();
 static void TestPWMLED();
+static void TestFND();
 
 int main(void)
 {
 	USART0_Init();
 	
-	//PlayMusic();
 	/*
+	PlayMusic();
+	
 	if(!TestEEPROM())
 	{
 		char *msg = "TestEEPROM failed\r\n";
 		USART0_TxBuffer((uint8_t*)msg, strlen(msg));
-	}
-	*/
+	}	
 	
 	TestPWMLED();
+	*/
+	
+	TestFND();
 	
 	/* Replace with your application code */
     while (1) 
@@ -122,4 +126,60 @@ static void TestPWMLED()
 			_delay_ms(10);
 		}
 	}	
+}
+
+static void TestFND()
+{
+	LATCH_Init();
+	LATCH_On(_BV(LATCH_OUT1) | _BV(LATCH_OUT2));
+	
+	for(int i = 0; i < 10000; i++)
+	{
+		for(int j = 0; j < 5; j++)
+		{	
+			/* Display numbers */		
+			int val = i;
+			
+			LATCH_SetDigit(DIGIT8);
+			LATCH_SetSegment(FND_Numbers[val%10], false);
+			_delay_ms(1);
+			
+			val = val / 10;
+			
+			LATCH_SetDigit(DIGIT7);
+			LATCH_SetSegment(FND_Numbers[val%10], false);
+			_delay_ms(1);
+			
+			val = val / 10;
+			
+			LATCH_SetDigit(DIGIT6);
+			LATCH_SetSegment(FND_Numbers[val%10],  false);
+			_delay_ms(1);
+			
+			val = val / 10;
+			
+			LATCH_SetDigit(DIGIT5);
+			LATCH_SetSegment(FND_Numbers[val%10], false);
+			_delay_ms(1);			
+			
+			/* Display characters */
+			LATCH_SetDigit(DIGIT1);
+			LATCH_SetSegment(FND_Chars[0], false);
+			_delay_ms(1);
+			
+			LATCH_SetDigit(DIGIT2);
+			LATCH_SetSegment(FND_Chars[1], false);
+			_delay_ms(1);
+			
+			LATCH_SetDigit(DIGIT3);
+			LATCH_SetSegment(FND_Chars[2], false);
+			_delay_ms(1);
+			
+			LATCH_SetDigit(DIGIT4);
+			LATCH_SetSegment(FND_Chars[3], false);
+			_delay_ms(1);
+		}
+	}
+	
+	LATCH_Off(_BV(LATCH_OUT1) | _BV(LATCH_OUT2));	
 }
