@@ -10,6 +10,7 @@
 #endif
 
 #include <avr/io.h>
+#include <stdio.h>
 #include <string.h>
 #include <util/delay.h>
 
@@ -19,11 +20,15 @@
 #include "EEPROM/AT24C02.h"
 #include "LED/PWM_LED.h"
 #include "FND/74HC573.h"
+#include "IrReceiver/IrReceiver.h"
 
 static void PlayMusic();
 static bool TestEEPROM();
 static void TestPWMLED();
 static void TestFND();
+static void TestIrRecv();
+
+void IrRcvCallback(uint32_t);
 
 int main(void)
 {
@@ -38,10 +43,12 @@ int main(void)
 		USART0_TxBuffer((uint8_t*)msg, strlen(msg));
 	}	
 	
-	TestPWMLED();
-	*/
+	TestPWMLED();	
 	
 	TestFND();
+	*/
+	
+	TestIrRecv();
 	
 	/* Replace with your application code */
     while (1) 
@@ -182,4 +189,23 @@ static void TestFND()
 	}
 	
 	LATCH_Off(_BV(LATCH_OUT1) | _BV(LATCH_OUT2));	
+}
+
+static void TestIrRecv()
+{
+	IR_Init(IrRcvCallback);
+}
+
+void IrRcvCallback(uint32_t code)
+{
+	char msg[30] = {0,};
+	uint16_t address;
+	uint8_t command;
+	
+	address = (code >> 16) & 0xFFFF;
+	command = (code >> 8) & 0xFF;
+	
+	sprintf(msg, "ADDR:0x%04x,CMD:0x%04x\r\n", address, command);
+	
+	USART0_TxBuffer((uint8_t*)msg, strlen(msg));
 }

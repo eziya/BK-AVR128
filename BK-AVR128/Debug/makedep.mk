@@ -10,6 +10,8 @@ EEPROM\AT24C02.c
 
 FND\74HC573.c
 
+IrReceiver\IrReceiver.c
+
 LED\PWM_LED.c
 
 main.c

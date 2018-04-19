@@ -168,6 +168,12 @@
     <Compile Include="FND\74HC573.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="IrReceiver\IrReceiver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="IrReceiver\IrReceiver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="LED\PWM_LED.c">
       <SubType>compile</SubType>
     </Compile>
@@ -189,6 +195,7 @@
     <Folder Include="EEPROM" />
     <Folder Include="LED" />
     <Folder Include="FND" />
+    <Folder Include="IrReceiver" />
     <Folder Include="USART" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
