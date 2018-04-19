@@ -7,8 +7,8 @@ Under developing examples...
 1) Buzzer
 2) AT24C02 EEPROM
 3) PWM LED (Timer0)
-4)
-5)
+4) 74HC573 + FND
+5) IR Receiver(TL1838)
 6)
 7)
 8)
