@@ -9,7 +9,7 @@ Under developing examples...
 3) PWM LED (Timer0)
 4) 74HC573 + FND
 5) IR Receiver(TL1838)
-6)
+6) Thermometer(DS18B20, 1-Wire)
 7)
 8)
 9)
