@@ -10,7 +10,7 @@ Under developing examples...
 4) 74HC573 + FND
 5) IR Receiver(TL1838)
 6) Thermometer(DS18B20, 1-Wire)
-7)
+7) ADC (Potentiometer)
 8)
 9)
 10)
