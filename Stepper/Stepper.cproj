@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>7.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.C</ToolchainName>
-    <ProjectGuid>{7e6fd90c-d4ce-47b1-91bc-b921fce30aaf}</ProjectGuid>
+    <ProjectGuid>{1ff391c4-52b4-4cdd-b86d-2a5c7105317e}</ProjectGuid>
     <avrdevice>ATmega128A</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>Executable</OutputType>
@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>Buzzer</AssemblyName>
-    <Name>Buzzer</Name>
-    <RootNamespace>Buzzer</RootNamespace>
+    <AssemblyName>Stepper</AssemblyName>
+    <Name>Stepper</Name>
+    <RootNamespace>Stepper</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -138,16 +138,13 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Buzzer.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Buzzer.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Note.h">
+    <Compile Include="Stepper.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Stepper.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
